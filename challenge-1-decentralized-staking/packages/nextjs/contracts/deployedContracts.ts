@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     ExampleExternalContract: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
       abi: [
         {
           inputs: [],
@@ -33,7 +33,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
       abi: [
         {
           inputs: [
@@ -86,12 +86,45 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "deadline",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "exampleExternalContract",
           outputs: [
             {
               internalType: "contract ExampleExternalContract",
               name: "",
               type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "execute",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "openForWithdraw",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -115,6 +148,26 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "timeLeft",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "withdraw",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
       ],
