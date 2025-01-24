@@ -19,9 +19,20 @@ contract Staker {
     uint256 public deadline = block.timestamp + 30 seconds;
     bool public openForWithdraw = false;
 
+    modifier notCompleted() {
+        require(exampleExternalContract.completed() == false, "ExternalContract has been completed!");
+        _;
+    }
+
+    modifier notExecuted() {
+        bool isExecuted = openForWithdraw || exampleExternalContract.completed();
+        require(isExecuted == false, "Already executed!");
+        _;
+    }
+
     // Collect funds in a payable `stake()` function and track individual `balances` with a mapping:
     // (Make sure to add a `Stake(address,uint256)` event and emit it for the frontend `All Stakings` tab to display)
-    function stake() public payable {
+    function stake() public payable notExecuted {
         address sender = msg.sender;
         uint256 amount = msg.value;
         balances[sender] += amount;
@@ -30,10 +41,9 @@ contract Staker {
 
     // After some `deadline` allow anyone to call an `execute()` function
     // If the deadline has passed and the threshold is met, it should call `exampleExternalContract.complete{value: address(this).balance}()`
-    function execute() public {
+    function execute() public notExecuted {
         uint256 time = timeLeft();
-        require(time == 0);
-        require(openForWithdraw == false || exampleExternalContract.completed() == false);
+        require(time == 0, "Deadline not met yet!");
 
         uint256 totalBalance = address(this).balance;
 
@@ -45,8 +55,8 @@ contract Staker {
     }
 
     // If the `threshold` was not met, allow everyone to call a `withdraw()` function to withdraw their balance
-    function withdraw() public {
-        require(openForWithdraw);
+    function withdraw() public notCompleted {
+        require(openForWithdraw, "Not yet open for withdraw");
 
         uint256 userBalance = balances[msg.sender];
         balances[msg.sender] = 0;
@@ -67,4 +77,7 @@ contract Staker {
     }
 
     // Add the `receive()` special function that receives eth and calls stake()
+    receive() external payable {
+        stake();
+    }
 }
